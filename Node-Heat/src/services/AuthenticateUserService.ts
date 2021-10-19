@@ -1,13 +1,14 @@
-import axios from 'axios';
-import prismaClient from '../prisma';
-import { sign } from 'jsonwebtoken';
-/*
+import axios from "axios";
+import prismaClient from "../prisma";
+import { sign } from "jsonwebtoken";
+
+/**
  * Receber code(string)
  * Recuperar o access_token no github
  * Recuperar infos do user no github
- * Verificar se o usuário existe no DB
- * ---- Sim = Gera um token
- * ---- Não = Cria np DB, gera um token
+ * Verificar se o usuario existe no DB
+ * ---- SIM = Gera um token
+ * ---- NAO = Cria no DB, gera um token
  * Retornar o token com as infos do user
  */
 
@@ -24,7 +25,7 @@ interface IUserResponse {
 
 class AuthenticateUserService {
   async execute(code: string) {
-    const url = 'https://github.com/login/oauth/access_token';
+    const url = "https://github.com/login/oauth/access_token";
 
     const { data: accessTokenResponse } =
       await axios.post<IAccessTokenResponse>(url, null, {
@@ -34,12 +35,12 @@ class AuthenticateUserService {
           code,
         },
         headers: {
-          Accept: 'application/json',
+          Accept: "application/json",
         },
       });
 
     const response = await axios.get<IUserResponse>(
-      'https://api.github.com/user',
+      "https://api.github.com/user",
       {
         headers: {
           authorization: `Bearer ${accessTokenResponse.access_token}`,
@@ -77,7 +78,7 @@ class AuthenticateUserService {
       process.env.JWT_SECRET,
       {
         subject: user.id,
-        expiresIn: '1d',
+        expiresIn: "1d",
       }
     );
 
