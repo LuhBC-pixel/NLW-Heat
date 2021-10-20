@@ -24,7 +24,7 @@ export function MessageList() {
 
   return (
     <div className={styles.messageListWrapper}>
-      <img src={logoImg} alt='DoWhile 2021' />
+      <img src={logoImg} alt='DoWhile 2021' className={styles.logo} />
 
       <ul className={styles.messageList}>
         {messages.map((message) => {
